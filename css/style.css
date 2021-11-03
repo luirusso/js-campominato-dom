@@ -51,6 +51,7 @@ main {
 .grid-container {
     display: flex;
     align-items: center;
+    flex-direction: column;
 }
 
 .grid {
@@ -73,9 +74,18 @@ main {
     cursor: pointer;
 }
 
-.square.clicked {
+.square.safe {
     background: rgb(0, 162, 255);
+}
+
+.square.bomb {
+    background-color: red;
+}
+
+.square.safe,
+.square.bomb {
     color: white;
+    cursor: default;
 }
 
 footer {

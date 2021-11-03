@@ -81,8 +81,9 @@ playBtn.addEventListener('click', () => {
         const square = createGridSquare(i, cellsPerSide);
 
         square.addEventListener('click', function() {
-            this.classList.add('clicked');
+            handleSquareClick(square, bombList, attempts, maxAttempts);
         });
+
 
         // Add generated square to grid
         grid.append(square);
@@ -108,7 +109,9 @@ function handleSquareClick(square, bombList, attempts, maxAttempts) {
     // Hit bomb?
 
     if(bombList.includes(number)) {
+        square.classList.add('bomb');
         console.log('Hai colpito una bomba!');
+        endGame(bombList, attempts, maxAttempts);
     } else if(!attempts.includes(number)) {
         square.classList.add('safe');
 
@@ -195,7 +198,7 @@ function createGridSquare(num, cells) {
     node.style.width = `calc(100% / ${cells} - 2px)`;
     node.style.height = `calc(100% / ${cells} - 2px)`;
 
-    // Add span inside square
+    // Add number inside square
 
     node.append(num);
 
