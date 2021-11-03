@@ -61,6 +61,10 @@ main {
     margin: 60px auto;
 }
 
+.grid.end-game .square {
+    pointer-events: none;
+}
+
 .square {
     display: flex;
     justify-content: center;

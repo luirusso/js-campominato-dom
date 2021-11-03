@@ -52,8 +52,15 @@ playBtn.addEventListener('click', () => {
     console.log(cellsNumber);
     console.log(cellsPerSide);
 
+    // Generating bombs
     const bombList = generateBombs(cellsNumber, 16);
     console.log('Bombe create', bombList);
+
+    // Attempts list
+    const attempts = [];
+    const maxAttempts = cellsNumber - bombList.length;
+    console.log('Tentativi possibili', maxAttempts);
+
 
     // Generating grid parent
 
@@ -86,6 +93,65 @@ playBtn.addEventListener('click', () => {
     // Add grid
     gridContainer.append(grid);
 });
+
+/**
+ * Handling square clicks
+ */
+
+function handleSquareClick(square, bombList, attempts, maxAttempts) {
+
+    // Get square number
+
+    const number = parseInt(square.innerHTML);
+    console.log(number);
+
+    // Hit bomb?
+
+    if(bombList.includes(number)) {
+        console.log('Hai colpito una bomba!');
+    } else if(!attempts.includes(number)) {
+        square.classList.add('safe');
+
+        attempts.push(number);
+        console.log('Tentativi riusciti', attempts);
+
+        if(attempts.length === maxAttempts) {
+            console.log('Hai vinto!');
+            endGame(bombList, attempts, maxAttempts);
+        }
+    }
+}
+
+/**
+ * End game
+ */
+
+function endGame(bombList, attempts, maxAttempts) {
+    const squares = document.querySelectorAll('.square');
+    console.log(squares);
+
+    for(let i = 0; i < squares.length; i++) {
+        const square = squares[i];
+        const squareValue = parseInt(square.innerHTML);
+
+        if(bombList.includes(squareValue)) {
+            square.classList.add('bomb');
+        }
+    }
+
+    let message = `Congratulazioni, hai vinto! Sei riuscito a fare ${maxAttempts} tentativi di seguito! Gioca ancora cliccando di nuovo sul tasto "Play" dopo aver scelto la difficoltà!`
+
+    if(attempts.length < maxAttempts) {
+        message = `Hai perso :( Sei riuscito a fare ${attempts.length} tentativi di fila. Gioca ancora cliccando di nuovo sul tasto "Play" dopo aver scelto la difficoltà!`
+    }
+
+    const messageEl = document.createElement('div');
+    messageEl.classList.add('message');
+    messageEl.append(message);
+    document.querySelector('.grid-container').append(messageEl);
+
+    document.querySelector('.grid').classList.add('end-game');
+}
 
 /**
  * Generating bomb list
