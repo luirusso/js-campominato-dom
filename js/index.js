@@ -1,19 +1,20 @@
 /**
  * Consegna
-L’utente indica un livello di difficoltà in base al quale viene generata una griglia di gioco quadrata, in cui ogni cella contiene un numero tra quelli compresi in un range (vedi immagine allegata):
+Copiamo la griglia fatta ieri nella nuova repo e aggiungiamo la logica del gioco (attenzione: non bisogna copiare tutta la cartella dell’esercizio ma solo l’index.html, e le cartelle js/ css/ con i relativi script e fogli di stile, per evitare problemi con l’inizializzazine di git).
+L’utente indica un livello di difficoltà in base al quale viene generata una griglia di gioco quadrata, in cui ogni cella contiene un numero tra quelli compresi in un range:
 con difficoltà 1 => tra 1 e 100
 con difficoltà 2 => tra 1 e 81
 con difficoltà 3 => tra 1 e 49
-Quando l’utente clicca su ogni cella, la cella cliccata si colora di azzurro.
-Consigli del giorno:
+Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
+I numeri nella lista delle bombe non possono essere duplicati.
+In seguito l’utente clicca su ogni cella: se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba - la cella si colora di rosso e la partita termina, altrimenti la cella cliccata si colora di azzurro e l’utente può continuare a cliccare sulle altre celle.
+La partita termina quando il giocatore clicca su una bomba o raggiunge il numero massimo possibile di numeri consentiti.
+Al termine della partita il software deve scoprire tutte le bombe e comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito.
 Scriviamo prima cosa vogliamo fare passo passo in italiano, dividiamo il lavoro in micro problemi.
+Ad esempio:
+Di cosa ho bisogno per generare i numeri delle bombe?
 Proviamo sempre prima con dei console.log() per capire se stiamo ricevendo i dati giusti.
-
-Piccolo reminder per ricordarvi i settings per le difficoltà:
-con difficoltà 1 (easy) => tra 1 e 100
-con difficoltà 2 (medium) => tra 1 e 81
-con difficoltà 3 (hard) => tra 1 e 49
-l'idea è che se il giocatore ha più quadrati il gioco è più semplice perché è minore la probabilità di beccare una bomba, attenti a non invertire le difficoltà!
+In allegato la grafica che abbiamo usato insieme questa mattina
  */
 
 const playBtn = document.querySelector('.btn-play');
@@ -51,6 +52,8 @@ playBtn.addEventListener('click', () => {
     console.log(cellsNumber);
     console.log(cellsPerSide);
 
+    const bombList = generateBombs(cellsNumber, 16);
+    console.log('Bombe create', bombList);
 
     // Generating grid parent
 
@@ -84,21 +87,33 @@ playBtn.addEventListener('click', () => {
     gridContainer.append(grid);
 });
 
+/**
+ * Generating bomb list
+ */
+
+function generateBombs(totCells, totBombs) {
+    // 16 unique random numbers
+    const bombs = [];
+
+    while(bombs.length < totBombs) {
+        const bomb = getRandomNumber(1, totCells);
+
+        if(!bombs.includes(bomb)) {
+            bombs.push(bomb);
+        }
+    }
+
+    return bombs;
+    console.log(bombs);
+}
+
 
 /**
  *  Generating random number
  */
 
-function getRandomNumber(list, min, max) {
-
-    // Loop until new number is not already in list
-    let number = 0;
-
-    do {
-        number = Math.floor( Math.random() * (max - min + 1)) + min;
-    } while( list.includes(number) );
-
-    return number;
+function getRandomNumber(min, max) {
+    return Math.floor( Math.random() * (max - min + 1) + min);
 }
 
 /**
