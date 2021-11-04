@@ -142,10 +142,10 @@ function endGame(bombList, attempts, maxAttempts) {
         }
     }
 
-    let message = `Congratulazioni, hai vinto! Sei riuscito a fare ${maxAttempts} tentativi di seguito! Gioca ancora cliccando di nuovo sul tasto "Play" dopo aver scelto la difficoltà!`
+    let message = `Congratulazioni, hai vinto! Sei riuscito a fare ${maxAttempts} tentativo/i di seguito! Gioca ancora cliccando di nuovo sul tasto "Play" dopo aver scelto la difficoltà!`
 
     if(attempts.length < maxAttempts) {
-        message = `Hai perso :( Sei riuscito a fare ${attempts.length} tentativi di fila. Gioca ancora cliccando di nuovo sul tasto "Play" dopo aver scelto la difficoltà!`
+        message = `Hai perso :( Sei riuscito a fare ${attempts.length} tentativo/i di fila. Gioca ancora cliccando di nuovo sul tasto "Play" dopo aver scelto la difficoltà!`
     }
 
     const messageEl = document.createElement('div');
